@@ -23,7 +23,6 @@ import org.nd4j.linalg.factory.Nd4j;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -43,7 +42,7 @@ public class InMemoryLookupCache implements VocabCache,Serializable {
     private INDArray syn0,syn1;
     private int vectorLength = 50;
     private transient RandomGenerator rng = new XorShift64StarRandomGenerator(123);
-    private AtomicInteger totalWordOccurrences = new AtomicInteger(0);
+    private AtomicLong totalWordOccurrences = new AtomicLong(0);
     private AtomicDouble lr = new AtomicDouble(1e-1);
     double[] expTable = new double[1000];
     static double MAX_EXP = 6;
@@ -478,7 +477,7 @@ public class InMemoryLookupCache implements VocabCache,Serializable {
      * @return the total number of word occurrences
      */
     @Override
-    public int totalWordOccurrences() {
+    public long totalWordOccurrences() {
         return  totalWordOccurrences.get();
     }
 
