@@ -426,11 +426,6 @@ public class LuceneInvertedIndex implements InvertedIndex,IndexReader.ReaderClos
     }
 
     @Override
-    public void remove() {
-        throw new java.lang.NoSuchMethodError("Not implemented!");
-    }
-
-    @Override
     public void finish() {
         if(cache) {
             indexManager.execute(new Runnable() {
