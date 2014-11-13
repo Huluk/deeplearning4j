@@ -76,6 +76,7 @@ public class Word2Vec implements Persistable {
     private TextVectorizer vectorizer;
     private int learningRateDecayWords = 10000;
     private boolean useAdaGrad = false;
+    private boolean allowMultithreading = true;
 
 
     public Word2Vec() {}
@@ -263,15 +264,20 @@ public class Word2Vec implements Persistable {
             readStopWords();
 
 
-        log.info("Training word2vec multithreaded");
+        int numThreads = 1;
+        if (allowMultithreading) {
+            numThreads = Runtime.getRuntime().availableProcessors() * 2;
+            log.info("Training word2vec multithreaded");
+        } else {
+            log.info("Training word2vec singlethreaded");
+        }
 
         if (sentenceIter != null)
             sentenceIter.reset();
         if (docIter != null)
             docIter.reset();
 
-
-        final ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+        final ExecutorService service = Executors.newFixedThreadPool(numThreads);
         final Collection<Integer> docs = vectorizer.index().allDocs();
         int tries = 0;
         while(docs.isEmpty()) {
@@ -607,7 +613,9 @@ public class Word2Vec implements Persistable {
         // this.shouldReset = false; // TODO assumption that this is a training continuation is not correct
     }
 
-
+    public void setAllowMultithreading(boolean allow) {
+        this.allowMultithreading = allow;
+    }
 
 
     public int getLayerSize() {

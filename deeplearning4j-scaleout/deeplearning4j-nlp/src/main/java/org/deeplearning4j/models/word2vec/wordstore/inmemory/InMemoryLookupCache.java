@@ -46,7 +46,7 @@ public class InMemoryLookupCache implements VocabCache,Serializable {
     private AtomicDouble lr = new AtomicDouble(1e-1);
     double[] expTable = new double[1000];
     static double MAX_EXP = 6;
-    private long seed = 123;
+    private long seed = 123; // TODO not settable from outside
     private int numDocs = 0;
     //negative sampling table
     private INDArray table,syn1Neg;
@@ -354,7 +354,7 @@ public class InMemoryLookupCache implements VocabCache,Serializable {
         this.rng = new MersenneTwister(seed);
 
         syn0  = Nd4j.rand(new int[]{vocabs.size(),vectorLength},rng).subi(0.5).divi(vectorLength);
-        putVector(Word2Vec.UNK,Nd4j.rand(1,vectorLength).subi(0.5).divi(vectorLength));
+        putVector(Word2Vec.UNK,Nd4j.rand(1,vectorLength, rng).subi(0.5).divi(vectorLength));
 
         syn1 = Nd4j.create(syn0.shape());
         initNegative();
@@ -733,7 +733,7 @@ public class InMemoryLookupCache implements VocabCache,Serializable {
         private boolean useAdaGrad = false;
         private double lr = 0.025;
         private RandomGenerator gen = new XorShift64StarRandomGenerator(123);
-        private long seed = 123;
+        private long seed = 123; // TODO is not passed to instance!
         private double negative = 0;
 
 

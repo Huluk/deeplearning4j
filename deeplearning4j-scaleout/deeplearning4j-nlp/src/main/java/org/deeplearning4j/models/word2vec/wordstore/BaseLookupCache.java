@@ -36,7 +36,7 @@ public abstract class BaseLookupCache implements VocabCache,Serializable {
     protected transient RandomGenerator rng = new XorShift64StarRandomGenerator(123);
     protected AtomicInteger totalWordOccurrences = new AtomicInteger(0);
     protected AtomicDouble lr = new AtomicDouble(1e-1);
-    protected long seed = 123;
+    protected long seed = 123; // TODO this seed is not settable from outside (but this class is unused)
     protected int numDocs = 0;
     //negative sampling table
     protected double negative = 0;
