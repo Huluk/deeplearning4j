@@ -667,6 +667,7 @@ public class Word2Vec implements Persistable {
         private double minLearningRate = 1e-2;
         private double negative = 0;
         private double sampling = 1e-5;
+        private boolean allowMultithreading = true;
 
         public Builder sampling(double sample) {
             this.sampling = sample;
@@ -769,7 +770,10 @@ public class Word2Vec implements Persistable {
             return this;
         }
 
-
+        public Builder allowMultithreading(boolean allow) {
+            this.allowMultithreading = allow;
+            return this;
+        }
 
 
         public Word2Vec build() {
@@ -808,6 +812,7 @@ public class Word2Vec implements Persistable {
                 }
                 ret.docIter = docIter;
                 ret.tokenizerFactory = tokenizerFactory;
+                ret.allowMultithreading = allowMultithreading;
 
                 return ret;
             }
@@ -847,6 +852,7 @@ public class Word2Vec implements Persistable {
                     ret.cache = vocabCache;
                 }
                 ret.tokenizerFactory = tokenizerFactory;
+                ret.allowMultithreading = allowMultithreading;
                 return ret;
             }
 
