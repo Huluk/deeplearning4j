@@ -298,7 +298,7 @@ public class Word2Vec implements Persistable {
         final List<Future<?>> futures2 = new ArrayList<>();
         for (int i = 0; i < numIterations; i++) {
             log.info("Training on " + docs.size());
-            final AtomicLong nextRandom = new AtomicLong(5);
+            final AtomicLong nextRandom = new AtomicLong(5); // TODO possibly make settable?
 
 
             Iterator<List<VocabWord>> minibatchesIter = vectorizer.index().miniBatches();
