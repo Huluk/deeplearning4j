@@ -610,7 +610,11 @@ public class Word2Vec implements Persistable {
      */
     public void setSentenceIter(SentenceIterator sentenceIter) {
         this.sentenceIter = sentenceIter;
-        // this.shouldReset = false; // TODO assumption that this is a training continuation is not correct
+        this.shouldReset = false;
+    }
+
+    public void resetWeightsOnSetup() {
+        this.shouldReset = true;
     }
 
     public void setAllowMultithreading(boolean allow) {
