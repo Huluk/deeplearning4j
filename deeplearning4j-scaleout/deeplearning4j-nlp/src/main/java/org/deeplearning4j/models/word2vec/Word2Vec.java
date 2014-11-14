@@ -433,6 +433,7 @@ public class Word2Vec implements Persistable {
                     .cache(cache).iterate(docIter).iterate(sentenceIter).batchSize(batchSize)
                     .minWords(minWordFrequency).stopWords(stopWords)
                     .tokenize(tokenizerFactory).build();
+        vectorizer.allowMultithreading(allowMultithreading);
         vectorizer.fit();
 
         setup();

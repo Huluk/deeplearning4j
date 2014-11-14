@@ -88,4 +88,6 @@ public interface TextVectorizer extends Vectorizer {
      * @return the inverted index for this vectorizer
      */
     InvertedIndex index();
+
+    void allowMultithreading(boolean allow);
 }

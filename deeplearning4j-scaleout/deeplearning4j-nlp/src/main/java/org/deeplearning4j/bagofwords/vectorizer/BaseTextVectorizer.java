@@ -41,6 +41,7 @@ public abstract class BaseTextVectorizer implements TextVectorizer {
     protected InvertedIndex index;
     protected int batchSize = 1000;
     protected double sample = 0.0;
+    protected boolean multithreading = true;
 
     public BaseTextVectorizer(){}
 
@@ -85,8 +86,13 @@ public abstract class BaseTextVectorizer implements TextVectorizer {
         final AtomicLong semaphore = new AtomicLong(System.currentTimeMillis());
         final AtomicInteger queued = new AtomicInteger(0);
 
+        int numThreads = 1;
+        if (multithreading) {
+            numThreads = Runtime.getRuntime().availableProcessors();
+        }
+
         final ActorRef vocabActor = trainingSystem.actorOf(
-                new RoundRobinPool(Runtime.getRuntime().availableProcessors()).props(
+                new RoundRobinPool(numThreads).props(
                         Props.create(
                                 VocabActor.class,
                                 tokenizerFactory,
@@ -224,5 +230,10 @@ public abstract class BaseTextVectorizer implements TextVectorizer {
     @Override
     public InvertedIndex index() {
         return index;
+    }
+
+    @Override
+    public void allowMultithreading(boolean allow) {
+        this.multithreading = allow;
     }
 }
